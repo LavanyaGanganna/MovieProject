@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">MovieProject</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_detail">DetailActivity</string>
+    <string name="pref_options_label">Category</string>
+    <string name="pref_options_key">category</string>
+    <string name="pref_options_popular">Popular</string>
+    <string name="pref_options_toprated">Toprated</string>
+    <string name="pref_options_popular_label">Popular Movies</string>
+    <string name="pref_options_toprated_label">Toprated Movies</string>
+    <string name="appbar_title">Popular Movies</string>
+    <string name="detail_appbar_title">Movie Detail</string>
+    <string name="movie_key">moviedata</string>
+    <array name="pref_options_values">
+        <item>@string/pref_options_popular</item>
+        <item>@string/pref_options_toprated</item>
+    </array>
+    <array name="pref_options_label">
+        <item>@string/pref_options_popular_label</item>
+        <item>@string/pref_options_toprated_label</item>
+    </array>
+    <string name="title_activity_settings">SettingsActivity</string>
+</resources>
