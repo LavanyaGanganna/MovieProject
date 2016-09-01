@@ -42,6 +42,7 @@ public class MainActivityFragment extends Fragment {
 	View view;
 	RecyclerView recyclerview;
 	MoviesAdapter mmoviesadapter;
+	String choices;
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,16 +56,7 @@ public class MainActivityFragment extends Fragment {
 		int columns = Math.round(dpWidth/200);
 		RecyclerView.LayoutManager mlayoutmanager=new GridLayoutManager(getActivity(),columns);
 		recyclerview.setLayoutManager(mlayoutmanager);
-		/*
-		if(getActivity().getResources().getConfiguration().orientation== Configuration.ORIENTATION_PORTRAIT){
-			RecyclerView.LayoutManager mlayoutmanager=new GridLayoutManager(getActivity(),2);
-			recyclerview.setLayoutManager(mlayoutmanager);
-		}
-		else {
-			RecyclerView.LayoutManager mlayoutmanager = new GridLayoutManager(getActivity(),3);
-			recyclerview.setLayoutManager(mlayoutmanager);
-		}*/
-		//	recyclerview.setItemAnimator(new DefaultItemAnimator());
+
 		recyclerview.setAdapter(mmoviesadapter);
 		return view;
 
@@ -73,7 +65,10 @@ public class MainActivityFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		updatemoviedata();
+		SharedPreferences sharedpreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
+		 String choice=sharedpreferences.getString(getString(R.string.pref_options_key),getString(R.string.pref_options_popular));
+		if(mmoviesadapter==null || !(choice.equals(choices)) )
+		updatemoviedata(choice);
 	}
 
 
@@ -168,9 +163,10 @@ public class MainActivityFragment extends Fragment {
 			mmoviesadapter.notifyDataSetChanged();
 		}
 	}
-	private void updatemoviedata(){
-		SharedPreferences sharedpreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
-		String choices=sharedpreferences.getString(getString(R.string.pref_options_key),getString(R.string.pref_options_popular));
+	private void updatemoviedata(String choice){
+
+		//Log.d(TAG,"inside updatemoviedata");
+		 choices=choice;
 		FetchMoviedata fetchmoviedata=new FetchMoviedata();
 		fetchmoviedata.execute(choices);
 	}

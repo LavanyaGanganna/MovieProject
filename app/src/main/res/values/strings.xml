@@ -10,7 +10,11 @@
     <string name="pref_options_toprated_label">Toprated Movies</string>
     <string name="appbar_title">Popular Movies</string>
     <string name="detail_appbar_title">Movie Detail</string>
+    <string name="dummy_movie_title">Chaplin</string>
+    <string name="dummy_year">2016</string>
+    <string name="dummy_votes">5.1</string>
     <string name="movie_key">moviedata</string>
+    <string name="dummy_plot">Awesome story of two kids</string>
     <array name="pref_options_values">
         <item>@string/pref_options_popular</item>
         <item>@string/pref_options_toprated</item>

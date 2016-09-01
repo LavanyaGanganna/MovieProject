@@ -16,25 +16,28 @@ import com.squareup.picasso.Picasso;
 
 import java.io.UnsupportedEncodingException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by lavanya on 8/29/16.
  */
 public class DetailFragment extends Fragment {
 	private static final String TAG = DetailFragment.class.getSimpleName();
-	TextView mtitle,moverview,myear,ratingvotes;
-	ImageView imageView;
+
+	@BindView(R.id.movietitle)TextView mtitle;
+	@BindView(R.id.movieoverview)TextView moverview;
+	@BindView(R.id.releaseyear)TextView myear;
+	@BindView(R.id.voteaverage)TextView ratingvotes;
+	@BindView(R.id.imageposters)ImageView imageView;
+
 	Bundle arguments;
 	View view;
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		 view=inflater.inflate(R.layout.fragment_detail,container,false);
-
-		mtitle=(TextView)view.findViewById(R.id.movietitle);
-		moverview=(TextView)view.findViewById(R.id.movieoverview);
-		myear=(TextView)view.findViewById(R.id.releaseyear);
-		ratingvotes=(TextView)view.findViewById(R.id.voteaverage);
-		imageView=(ImageView)view.findViewById(R.id.imageposters);
+		ButterKnife.bind(this,view);
 		arguments=getArguments();
 		Moviedata moviedata=arguments.getParcelable(getString(R.string.movie_key));
 		mtitle.setText(moviedata.getMtitle());

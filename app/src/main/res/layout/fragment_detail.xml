@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fillViewport="true" >
@@ -9,16 +10,17 @@
               android:layout_height="match_parent">
     <TextView android:layout_width="match_parent"
               android:layout_height="@dimen/title_width"
-              android:background="#26A69A"
+              android:background="@color/text_background"
               android:gravity="center_vertical"
               android:layout_alignParentLeft="true"
               android:layout_marginBottom="@dimen/margin_width"
               android:paddingLeft="@dimen/margin_gap"
               android:fontFamily="sans-serif"
               android:textStyle="bold"
-              android:textColor="#FFFFFF"
+              android:textColor="@color/text_color"
               android:textSize="@dimen/title_size"
-              android:id="@+id/movietitle"/>
+              android:id="@+id/movietitle"
+              tools:text="@string/dummy_movie_title"/>
     <ImageView android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_below="@+id/movietitle"
@@ -27,14 +29,15 @@
                android:layout_alignParentStart="true"
                android:layout_marginBottom="@dimen/margin_width"
                android:layout_marginLeft="@dimen/margin_width"
-               android:src="@drawable/daisy"/>
+               tools:src="@drawable/daisy"/>
     <TextView android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:id="@+id/releaseyear"
               android:layout_marginLeft="@dimen/margin_width"
               android:layout_marginBottom="@dimen/margin_gap"
               android:layout_below="@+id/movietitle"
-              android:layout_toRightOf="@+id/imageposters"/>
+              android:layout_toRightOf="@+id/imageposters"
+              tools:text="@string/dummy_year"/>
 
     <TextView android:layout_width="wrap_content"
               android:layout_height="wrap_content"
@@ -42,14 +45,15 @@
               android:layout_below="@+id/releaseyear"
               android:layout_marginLeft="@dimen/margin_width"
               android:layout_marginBottom="@dimen/margin_gap"
-              android:layout_toRightOf="@+id/imageposters"/>
+              android:layout_toRightOf="@+id/imageposters"
+              tools:text="@string/dummy_votes"/>
     <Button android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_gap"
             android:layout_marginLeft="@dimen/margin_width"
-            android:background="#26A69A"
+            android:background="@color/text_background"
             android:text="Reviews"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_color"
             android:layout_below="@+id/voteaverage"
             android:layout_toRightOf="@+id/imageposters"/>
     <TextView android:layout_width="wrap_content"
@@ -57,7 +61,8 @@
               android:layout_marginLeft="@dimen/margin_gap"
                 android:id="@+id/movieoverview"
               android:fontFamily="sans-serif"
-                android:layout_below="@+id/imageposters"/>
+                android:layout_below="@+id/imageposters"
+                tools:text="@string/dummy_plot"/>
 
 </RelativeLayout>
 </ScrollView>
