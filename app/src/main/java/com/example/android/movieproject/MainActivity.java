@@ -21,15 +21,16 @@ public class MainActivity extends AppCompatActivity {
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		toolbar.setTitle(R.string.appbar_title);
-		if(savedInstanceState==null){
-			FragmentManager fragmentManager=getSupportFragmentManager();
-			FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-			MainActivityFragment mainActivityFragment=new MainActivityFragment();
-			fragmentTransaction.add(R.id.container,mainActivityFragment);
+		if (savedInstanceState == null) {
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			MainActivityFragment mainActivityFragment = new MainActivityFragment();
+			fragmentTransaction.replace(R.id.container, mainActivityFragment);
 			fragmentTransaction.commit();
 		}
 		getSupportActionBar().setTitle(R.string.appbar_title);
 	}
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
 		//noinspection SimplifiableIfStatement
 		if (id == R.id.action_settings) {
-			Intent settingintent=new Intent(this,SettingsActivity.class);
+			Intent settingintent = new Intent(this, SettingsActivity.class);
 			startActivity(settingintent);
 			return true;
 		}

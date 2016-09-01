@@ -6,19 +6,19 @@ import android.os.Parcelable;
 /**
  * Created by lavanya on 8/29/16.
  */
-public class Moviedata  implements Parcelable{
+public class Moviedata implements Parcelable {
 	String mmoviepath;
 	String moverview;
 	String mreleasedate;
 	String mtitle;
 	Double mvotes;
 
-	Moviedata(String moviepath,String movieoverview,String releasedate,String title,Double votes){
-		mmoviepath=moviepath;
-		moverview=movieoverview;
-		mreleasedate=releasedate;
-		mtitle=title;
-		mvotes=votes;
+	Moviedata(String moviepath, String movieoverview, String releasedate, String title, Double votes) {
+		mmoviepath = moviepath;
+		moverview = movieoverview;
+		mreleasedate = releasedate;
+		mtitle = title;
+		mvotes = votes;
 	}
 
 	protected Moviedata(Parcel in) {
@@ -26,7 +26,7 @@ public class Moviedata  implements Parcelable{
 		moverview = in.readString();
 		mreleasedate = in.readString();
 		mtitle = in.readString();
-		mvotes=in.readDouble();
+		mvotes = in.readDouble();
 	}
 
 	@Override

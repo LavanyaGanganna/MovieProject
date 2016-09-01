@@ -16,7 +16,7 @@ import android.view.View;
 
 public class DetailActivity extends AppCompatActivity {
 
-	private static final String TAG =DetailActivity.class.getSimpleName() ;
+	private static final String TAG = DetailActivity.class.getSimpleName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +29,13 @@ public class DetailActivity extends AppCompatActivity {
 		getSupportActionBar().setTitle(R.string.detail_appbar_title);
 		Intent detailintent = getIntent();
 		Moviedata moviedatas = detailintent.getParcelableExtra(getString(R.string.movie_key));
-		Bundle mybundle=new Bundle();
-		mybundle.putParcelable(getString(R.string.movie_key),moviedatas);
-		DetailFragment detailfragment=new DetailFragment();
+		Bundle mybundle = new Bundle();
+		mybundle.putParcelable(getString(R.string.movie_key), moviedatas);
+		DetailFragment detailfragment = new DetailFragment();
 		detailfragment.setArguments(mybundle);
-		FragmentManager fragmentmanager=getSupportFragmentManager();
-		FragmentTransaction fragmentransaction=fragmentmanager.beginTransaction();
-		fragmentransaction.replace(R.id.placeholder,detailfragment);
+		FragmentManager fragmentmanager = getSupportFragmentManager();
+		FragmentTransaction fragmentransaction = fragmentmanager.beginTransaction();
+		fragmentransaction.replace(R.id.placeholder, detailfragment);
 		fragmentransaction.commit();
 	}
 
@@ -55,7 +55,7 @@ public class DetailActivity extends AppCompatActivity {
 
 		//noinspection SimplifiableIfStatement
 		if (id == R.id.action_settings) {
-			Intent settingintent=new Intent(this,SettingsActivity.class);
+			Intent settingintent = new Intent(this, SettingsActivity.class);
 			startActivity(settingintent);
 			return true;
 		}

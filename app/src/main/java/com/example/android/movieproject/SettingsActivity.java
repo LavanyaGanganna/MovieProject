@@ -16,7 +16,7 @@ import android.view.View;
 import java.util.prefs.PreferenceChangeEvent;
 import java.util.prefs.PreferenceChangeListener;
 
-public class SettingsActivity extends AppCompatPreferenceActivity implements Preference.OnPreferenceChangeListener{
+public class SettingsActivity extends AppCompatPreferenceActivity implements Preference.OnPreferenceChangeListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Pre
 		bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_options_key)));
 
 	}
+
 	private void bindPreferenceSummaryToValue(Preference preference) {
 		// Set the listener to watch for value changes.
 		preference.setOnPreferenceChangeListener(this);
@@ -53,6 +54,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Pre
 
 		return true;
 	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();

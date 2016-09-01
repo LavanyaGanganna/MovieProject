@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 /**
  * Created by lavanya on 8/30/16.
  */
-public abstract class AppCompatPreferenceActivity extends PreferenceActivity{
+public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
 	private AppCompatDelegate mDelegate;
 
 	@Override
@@ -23,6 +23,7 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity{
 		getDelegate().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		super.onCreate(savedInstanceState);
 	}
+
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
