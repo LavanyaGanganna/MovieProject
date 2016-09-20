@@ -1,13 +1,16 @@
 <resources>
     <string name="app_name">MovieProject</string>
     <string name="action_settings">Settings</string>
+    <string name="action_share">Share</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="pref_options_label">Category</string>
     <string name="pref_options_key">category</string>
     <string name="pref_options_popular">Popular</string>
     <string name="pref_options_toprated">Toprated</string>
+    <string name="pref_options_favorite">Favorite</string>
     <string name="pref_options_popular_label">Popular Movies</string>
     <string name="pref_options_toprated_label">Toprated Movies</string>
+    <string name="pref_options_favorite_label">Favorite Movies</string>
     <string name="appbar_title">Popular Movies</string>
     <string name="detail_appbar_title">Movie Detail</string>
     <string name="dummy_movie_title">Chaplin</string>
@@ -15,13 +18,24 @@
     <string name="dummy_votes">5.1</string>
     <string name="movie_key">moviedata</string>
     <string name="dummy_plot">Awesome story of two kids</string>
+    <string name="like_text">LIKE</string>
+    <string name="review_text">Reviews</string>
+    <string name="overview_text">Overview:</string>
+    <string name="trailers">Trailers:</string>
+    <string name="trailer1">Trailer 1</string>
+    <string name="trailer2">Trailer 2</string>
+    <string name="releasedtext">Released</string>
+    <string name="ratingtext">Rating</string>
     <array name="pref_options_values">
         <item>@string/pref_options_popular</item>
         <item>@string/pref_options_toprated</item>
+        <item>@string/pref_options_favorite</item>
     </array>
     <array name="pref_options_label">
         <item>@string/pref_options_popular_label</item>
         <item>@string/pref_options_toprated_label</item>
+        <item>@string/pref_options_favorite_label</item>
     </array>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_reviews">reviewsActivity</string>
 </resources>

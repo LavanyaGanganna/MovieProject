@@ -29,9 +29,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Pre
 	private void bindPreferenceSummaryToValue(Preference preference) {
 		// Set the listener to watch for value changes.
 		preference.setOnPreferenceChangeListener(this);
-
-		// Trigger the listener immediately with the preference's
-		// current value.
 		onPreferenceChange(preference, PreferenceManager
 				.getDefaultSharedPreferences(preference.getContext())
 				.getString(preference.getKey(), ""));
@@ -43,8 +40,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Pre
 		String stringValue = value.toString();
 
 		if (preference instanceof ListPreference) {
-			// For list preferences, look up the correct display value in
-			// the preference's 'entries' list (since they have separate labels/values).
 			ListPreference listPreference = (ListPreference) preference;
 			int prefIndex = listPreference.findIndexOfValue(stringValue);
 			if (prefIndex >= 0) {

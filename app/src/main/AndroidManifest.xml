@@ -15,7 +15,6 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -39,11 +38,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.movieproject.MainActivity"/>
         </activity>
-        <receiver android:name=".NetworkchangeReceiver">
-        <intent-filter>
-            <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-        </intent-filter>
-    </receiver>
+
+        <activity
+            android:name=".reviewsActivity"
+            android:label="@string/title_activity_reviews"
+            android:parentActivityName=".DetailActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.movieproject.DetailActivity"/>
+        </activity>
+        <provider
+            android:authorities="com.example.android.movieproject"
+            android:name=".datas.MovieProvider"
+            android:label="my provider"
+            android:exported="false"
+            android:syncable="true"/>
     </application>
 
 </manifest>

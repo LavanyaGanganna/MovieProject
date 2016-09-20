@@ -1,4 +1,4 @@
-package com.example.android.movieproject;
+package com.example.android.movieproject.datas;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -12,13 +12,15 @@ public class Moviedata implements Parcelable {
 	String mreleasedate;
 	String mtitle;
 	Double mvotes;
+	int mmovieid;
 
-	Moviedata(String moviepath, String movieoverview, String releasedate, String title, Double votes) {
+	public Moviedata(String moviepath, String movieoverview, String releasedate, String title, Double votes, int movieid) {
 		mmoviepath = moviepath;
 		moverview = movieoverview;
 		mreleasedate = releasedate;
 		mtitle = title;
 		mvotes = votes;
+		mmovieid = movieid;
 	}
 
 	protected Moviedata(Parcel in) {
@@ -27,6 +29,7 @@ public class Moviedata implements Parcelable {
 		mreleasedate = in.readString();
 		mtitle = in.readString();
 		mvotes = in.readDouble();
+		mmovieid = in.readInt();
 	}
 
 	@Override
@@ -36,6 +39,7 @@ public class Moviedata implements Parcelable {
 		dest.writeString(mreleasedate);
 		dest.writeString(mtitle);
 		dest.writeDouble(mvotes);
+		dest.writeInt(mmovieid);
 	}
 
 	@Override
@@ -93,5 +97,9 @@ public class Moviedata implements Parcelable {
 
 	public void setMmoviepath(String mmoviepath) {
 		this.mmoviepath = mmoviepath;
+	}
+
+	public int getMmovieid() {
+		return mmovieid;
 	}
 }

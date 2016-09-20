@@ -3,8 +3,20 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="title_width">100dp</dimen>
+    <dimen name="title_width">80dp</dimen>
     <dimen name="margin_width">50dp</dimen>
     <dimen name="margin_gap">10dp</dimen>
-    <dimen name="title_size">24sp</dimen>
+    <dimen name="title_size">30sp</dimen>
+    <dimen name="view_height">35dp</dimen>
+    <dimen name="layoutwidth">0dp</dimen>
+    <dimen name="layoutheight">217dp</dimen>
+    <dimen name="paddingap">20dp</dimen>
+    <dimen name="textsize">16sp</dimen>
+    <dimen name="secondtextsize">20sp</dimen>
+    <dimen name="smallmargin">5dp</dimen>
+    <dimen name="textbigsize">20sp</dimen>
+    <dimen name="bigpaddinggap">30dp</dimen>
+    <dimen name="margingap">40dp</dimen>
+    <dimen name="topmargin">62dp</dimen>
+    <dimen name="topmargingap">15dp</dimen>
 </resources>
