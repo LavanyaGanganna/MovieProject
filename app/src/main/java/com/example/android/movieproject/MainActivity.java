@@ -63,8 +63,11 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.lis
 
 			viewPager = (ViewPager) findViewById(R.id.viewpager);
 			final CustomPageAdapter pageradapter = new CustomPageAdapter(getSupportFragmentManager(), getApplicationContext());
-			viewPager.setAdapter(pageradapter);
-			viewPager.setOffscreenPageLimit(3);
+			if(viewPager !=null) {
+				viewPager.setAdapter(pageradapter);
+				viewPager.setOffscreenPageLimit(3);
+			}
+
 			//	pageradapter.notifyDataSetChanged();
 			tabLayout = (TabLayout) findViewById(R.id.tablayoutview);
 			tabLayout.setupWithViewPager(viewPager);
