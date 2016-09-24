@@ -139,16 +139,21 @@ public class OkhttpHandlerpop extends AsyncTask<String, Void, ArrayList<Moviedat
 					progressBar.setVisibility(View.GONE);
 				}
 				RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.recyclerview);
-				if (recyclerView != null && popmoviesadapter != null) {
-					recyclerView.setAdapter(popmoviesadapter);
+				if (recyclerView != null) {
 					recyclerView.getRecycledViewPool().clear();//impt for recyclerview error offset position1
+					recyclerView.removeAllViews();
 					popmoviesadapter.notifyDataSetChanged();
+					if (popmoviesadapter != null) {
+						recyclerView.setAdapter(popmoviesadapter);
+						popmoviesadapter.notifyDataSetChanged();
+					}
 				}
+
 			}
 
 		}
-
 	}
-
 }
+
+
 
