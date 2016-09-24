@@ -128,22 +128,26 @@ public class OkhttpHandler extends AsyncTask<String, Void, ArrayList<Moviedata>>
 		if (moviedatas == null) {
 			Toast.makeText(mcontext, "no internet connection", Toast.LENGTH_LONG).show();
 		}
-		if (status == false) {
+		if (!status) {
 			Toast.makeText(mcontext, "no internet connection", Toast.LENGTH_LONG).show();
 		}
-		mmoviesadapter = new MoviesAdapter(moviedatas, mcontext);
+		if (moviedatas != null)
+			mmoviesadapter = new MoviesAdapter(moviedatas, mcontext);
 
 		if (mmoviesadapter != null) {
 			Activity activity = (mcontext instanceof Activity) ? (Activity) mcontext : null;
-			ProgressBar progressBartwo = (ProgressBar) activity.findViewById(R.id.progressBartwo);
-			if (progressBartwo != null && progressBartwo.getVisibility() == View.VISIBLE) {
-				progressBartwo.setVisibility(View.GONE);
+			if (activity != null) {
+				ProgressBar progressBartwo = (ProgressBar) activity.findViewById(R.id.progressBartwo);
+				if (progressBartwo != null && progressBartwo.getVisibility() == View.VISIBLE) {
+					progressBartwo.setVisibility(View.GONE);
+				}
+				Log.d(TAG, "progeess bar invisible  and inside setadapter");
+				RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.recyclerviewtwo);
+				if (recyclerView != null && mmoviesadapter != null) {
+					recyclerView.setAdapter(mmoviesadapter);
+					mmoviesadapter.notifyDataSetChanged();
+				}
 			}
-			Log.d(TAG, "progeess bar invisible  and inside setadapter");
-			RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.recyclerviewtwo);
-			if (recyclerView != null && mmoviesadapter != null)
-				recyclerView.setAdapter(mmoviesadapter);
-			mmoviesadapter.notifyDataSetChanged();
 		}
 
 	}

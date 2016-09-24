@@ -82,7 +82,7 @@ public class MainActivityFragment extends Fragment implements OkhttpHandlerpop.A
 		recyclerview.setLayoutManager(mlayoutmanager);
 		recyclerview.addItemDecoration(new SpacesItemDecoration(5));
 		progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-		recyclerview.setAdapter(moviesAdapter);
+		//	recyclerview.setAdapter(moviesAdapter);
 
 		return view;
 
@@ -108,7 +108,7 @@ public class MainActivityFragment extends Fragment implements OkhttpHandlerpop.A
 
 	private void updatemoviedata() {
 		Context mcontext = getContext();
-		String myuri = null;
+		//	String myuri = null;
 		if (!(getResources().getBoolean(R.bool.isTablet))) {
 			OkhttpHandlerpop okhttphandlerpop = new OkhttpHandlerpop(getActivity(), new OkhttpHandlerpop.AsyncResponse() {
 				@Override
@@ -116,9 +116,14 @@ public class MainActivityFragment extends Fragment implements OkhttpHandlerpop.A
 				}
 			});
 			//	Log.d(TAG, "inside update");
-			myuri = Uri.parse("http://api.themoviedb.org/3/movie/popular?api_key=50bb9b78ca3a650f255ae2006b702c62").toString();
-			okhttphandlerpop.execute(myuri);
-
+			Uri.Builder builder = new Uri.Builder();
+			Uri myuri = builder.scheme("http")
+					.authority("api.themoviedb.org")
+					.appendPath("3")
+					.appendPath("movie")
+					.appendPath("popular")
+					.appendQueryParameter("api_key", "50bb9b78ca3a650f255ae2006b702c62").build();
+			okhttphandlerpop.execute(myuri.toString());
 
 		} else if (getResources().getBoolean(R.bool.isTablet)) {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -128,26 +133,13 @@ public class MainActivityFragment extends Fragment implements OkhttpHandlerpop.A
 				Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
 				((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 				toolbar.setTitle("Popular Movies");
-				myuri = Uri.parse("http://api.themoviedb.org/3/movie/popular?api_key=50bb9b78ca3a650f255ae2006b702c62").toString();
-				OkhttpHandlerpop okhttpHandlerpop = new OkhttpHandlerpop(getContext(), new OkhttpHandlerpop.AsyncResponse() {
-					@Override
-					public void processFinish(ArrayList<Moviedata> output) {
-						if (output.size() > 0) {
-							DetailFragment detailFragment = new DetailFragment();
-							Bundle argus = new Bundle();
-							argus.putParcelable(getString(R.string.movie_key), output.get(0));
-							detailFragment.setArguments(argus);
-							getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.tabletdetailholder, detailFragment).addToBackStack(null).commit();
-						}
-					}
-				});
-				okhttpHandlerpop.execute(myuri);
-			} else if (selections.equals(getString(R.string.pref_options_toprated))) {
-				Activity activity = (mcontext instanceof Activity) ? (Activity) mcontext : null;
-				Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
-				((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-				toolbar.setTitle("Toprate Movies");
-				myuri = Uri.parse("http://api.themoviedb.org/3/movie/top_rated?api_key=50bb9b78ca3a650f255ae2006b702c62").toString();
+				Uri.Builder builder = new Uri.Builder();
+				Uri myuri = builder.scheme("http")
+						.authority("api.themoviedb.org")
+						.appendPath("3")
+						.appendPath("movie")
+						.appendPath("popular")
+						.appendQueryParameter("api_key", "50bb9b78ca3a650f255ae2006b702c62").build();
 
 				OkhttpHandlerpop okhttpHandlerpop = new OkhttpHandlerpop(getContext(), new OkhttpHandlerpop.AsyncResponse() {
 					@Override
@@ -161,14 +153,42 @@ public class MainActivityFragment extends Fragment implements OkhttpHandlerpop.A
 						}
 					}
 				});
-				okhttpHandlerpop.execute(myuri);
+				okhttpHandlerpop.execute(myuri.toString());
+			} else if (selections.equals(getString(R.string.pref_options_toprated))) {
+				Activity activity = (mcontext instanceof Activity) ? (Activity) mcontext : null;
+				Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
+				((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+				toolbar.setTitle("Toprate Movies");
+				Uri.Builder builder = new Uri.Builder();
+				Uri myuri = builder.scheme("http")
+						.authority("api.themoviedb.org")
+						.appendPath("3")
+						.appendPath("movie")
+						.appendPath("top_rated")
+						.appendQueryParameter("api_key", "50bb9b78ca3a650f255ae2006b702c62").build();
+
+				OkhttpHandlerpop okhttpHandlerpop = new OkhttpHandlerpop(getContext(), new OkhttpHandlerpop.AsyncResponse() {
+					@Override
+					public void processFinish(ArrayList<Moviedata> output) {
+						if (output.size() > 0) {
+							DetailFragment detailFragment = new DetailFragment();
+							Bundle argus = new Bundle();
+							argus.putParcelable(getString(R.string.movie_key), output.get(0));
+							detailFragment.setArguments(argus);
+							getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.tabletdetailholder, detailFragment).addToBackStack(null).commit();
+						}
+					}
+				});
+				okhttpHandlerpop.execute(myuri.toString());
 			} else if (selections.equals(getString(R.string.pref_options_favorite))) {
 				moviedataArrayList.clear();
 				Activity activity = (mcontext instanceof Activity) ? (Activity) mcontext : null;
-				Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
-				if (toolbar != null) {
-					((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-					toolbar.setTitle("Favorite Movies");
+				if (activity != null) {
+					Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
+					if (toolbar != null) {
+						((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+						toolbar.setTitle("Favorite Movies");
+					}
 				}
 				Cursor cursor = getActivity().getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI, null, null, null, null);
 				if (cursor != null && cursor.moveToFirst()) {
@@ -184,6 +204,7 @@ public class MainActivityFragment extends Fragment implements OkhttpHandlerpop.A
 						moviedataArrayList.add(moviedata);
 						//	Log.d(TAG,"Adding to Arraylists in three");
 					} while (cursor.moveToNext());
+					cursor.close();
 				}
 				if (moviedataArrayList.size() == 0) {
 					Toast.makeText(getContext(), "No movies in Favorites", Toast.LENGTH_LONG).show();
@@ -198,6 +219,7 @@ public class MainActivityFragment extends Fragment implements OkhttpHandlerpop.A
 					argus.putParcelable(getString(R.string.movie_key), moviedataArrayList.get(0));
 					detailFragment.setArguments(argus);
 					getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.tabletdetailholder, detailFragment).addToBackStack(null).commit();
+
 				}
 			}
 		}

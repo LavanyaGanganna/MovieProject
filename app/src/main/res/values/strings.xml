@@ -37,5 +37,5 @@
         <item>@string/pref_options_favorite_label</item>
     </array>
     <string name="title_activity_settings">SettingsActivity</string>
-    <string name="title_activity_reviews">reviewsActivity</string>
+    <string name="title_activity_reviews">ReviewsActivity</string>
 </resources>

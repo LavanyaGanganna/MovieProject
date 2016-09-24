@@ -40,7 +40,7 @@
         </activity>
 
         <activity
-            android:name=".reviewsActivity"
+            android:name=".ReviewsActivity"
             android:label="@string/title_activity_reviews"
             android:parentActivityName=".DetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -49,11 +49,15 @@
                 android:value="com.example.android.movieproject.DetailActivity"/>
         </activity>
         <provider
-            android:authorities="com.example.android.movieproject"
             android:name=".datas.MovieProvider"
-            android:label="my provider"
+            android:authorities="com.example.android.movieproject"
             android:exported="false"
+            android:label="my provider"
             android:syncable="true"/>
     </application>
-
+    <supports-screens android:anyDensity="true"
+                      android:largeScreens="true"
+                      android:normalScreens="true"
+                      android:smallScreens="true"
+                      android:xlargeScreens="true"/>
 </manifest>

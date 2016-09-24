@@ -3,6 +3,7 @@ package com.example.android.movieproject;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -17,12 +18,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.android.movieproject.datas.MovieContract;
 import com.example.android.movieproject.datas.Moviedata;
@@ -47,57 +52,57 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.lis
 		setSupportActionBar(toolbar);
 		toolbar.setTitle(R.string.appbar_title);
 
-
 		boolean tabletsize = getResources().getBoolean(R.bool.isTablet);
 
 		if (tabletsize) {
 			Log.d(TAG, "inside the tablet");
 
 			if (savedInstanceState == null) {
-				getSupportFragmentManager().beginTransaction().add(R.id.tabletplaceholder, new MainActivityFragment(), MOVIE_FRAGMENT).addToBackStack(null).commit();
+				getSupportFragmentManager().beginTransaction().replace(R.id.tabletplaceholder, new MainActivityFragment(), MOVIE_FRAGMENT).addToBackStack(null).commit();
 				getSupportFragmentManager().beginTransaction().replace(R.id.tabletdetailholder, new DetailFragment(), MOVIE_DETAILFRAGMENT).addToBackStack(null).commit();
 			}
-
 
 		} else {
 
 			viewPager = (ViewPager) findViewById(R.id.viewpager);
 			final CustomPageAdapter pageradapter = new CustomPageAdapter(getSupportFragmentManager(), getApplicationContext());
-			if(viewPager != null) {
+			if (viewPager != null) {
 				viewPager.setAdapter(pageradapter);
 				viewPager.setOffscreenPageLimit(3);
 			}
 
 			//	pageradapter.notifyDataSetChanged();
 			tabLayout = (TabLayout) findViewById(R.id.tablayoutview);
-			tabLayout.setupWithViewPager(viewPager);
-			viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-			tabLayout.setTabsFromPagerAdapter(pageradapter);
+			if (tabLayout != null) {
+				tabLayout.setupWithViewPager(viewPager);
+
+				viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+				tabLayout.setTabsFromPagerAdapter(pageradapter);
 
 
-			tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
-				@Override
-				public void onTabSelected(TabLayout.Tab tab) {
-					viewPager.setCurrentItem(tab.getPosition());
-					pageradapter.notifyDataSetChanged();
-					//	if(tabLayout.getSelectedTabPosition()==2)
-					//	pageradapter.getItem(2);
-				}
+				tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
+					@Override
+					public void onTabSelected(TabLayout.Tab tab) {
+						viewPager.setCurrentItem(tab.getPosition());
+						pageradapter.notifyDataSetChanged();
 
-				@Override
-				public void onTabUnselected(TabLayout.Tab tab) {
-					//Log.d(TAG,"the tab is" + tab.getPosition());
-					viewPager.setCurrentItem(tab.getPosition());
-				}
+					}
 
-				@Override
-				public void onTabReselected(TabLayout.Tab tab) {
-					//	Log.d(TAG,"the tab is" + tab.getPosition());
-					viewPager.setCurrentItem(tab.getPosition());
-				}
-			});
+					@Override
+					public void onTabUnselected(TabLayout.Tab tab) {
+						//Log.d(TAG,"the tab is" + tab.getPosition());
+						viewPager.setCurrentItem(tab.getPosition());
+					}
 
+					@Override
+					public void onTabReselected(TabLayout.Tab tab) {
+						//	Log.d(TAG,"the tab is" + tab.getPosition());
+						viewPager.setCurrentItem(tab.getPosition());
+					}
+				});
 
+			}
 		}
 	}
 

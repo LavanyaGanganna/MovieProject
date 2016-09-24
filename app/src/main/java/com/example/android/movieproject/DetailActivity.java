@@ -35,10 +35,11 @@ public class DetailActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detail);
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
-		toolbar.setTitle(R.string.detail_appbar_title);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setTitle(R.string.detail_appbar_title);
+			setSupportActionBar(toolbar);
+			toolbar.setTitle(R.string.detail_appbar_title);
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			getSupportActionBar().setTitle(R.string.detail_appbar_title);
+
 		Intent detailintent = getIntent();
 		Moviedata moviedatas = detailintent.getParcelableExtra(getString(R.string.movie_key));
 		movieid = moviedatas.getMmovieid();
@@ -83,8 +84,8 @@ public class DetailActivity extends AppCompatActivity {
 			return true;
 		}
 		if (id == R.id.Shareaction) {
-			if (MoviesAdapter.videouris.size() > 0) {
-				videouri = Uri.parse("http://www.youtube.com/watch?v=" + MoviesAdapter.videouris.get(0)).buildUpon().build();
+			if (DetailFragment.videouris.size() > 0) {
+				videouri = Uri.parse("http://www.youtube.com/watch?v=" + DetailFragment.videouris.get(0)).buildUpon().build();
 			}
 			shareintent = new Intent(android.content.Intent.ACTION_SEND);
 			String sharebody = videouri + FORECAST_SHARE_HASHTAG;

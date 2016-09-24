@@ -1,24 +1,19 @@
 package com.example.android.movieproject;
 
-import android.app.Activity;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,27 +22,22 @@ import com.example.android.movieproject.datas.MovieContract;
 import com.example.android.movieproject.datas.Moviedata;
 import com.example.android.movieproject.datas.Moviereviewsdata;
 import com.example.android.movieproject.datas.Movievideodata;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static java.lang.Math.toIntExact;
 
 /**
  * Created by lavanya on 8/29/16.
  */
 public class DetailFragment extends Fragment {
 	private static final String TAG = DetailFragment.class.getSimpleName();
-	//public static ArrayList<String> videouris = new ArrayList<String>();
+	public static ArrayList<String> videouris = new ArrayList<String>();
+	public static ArrayList<String> urllist = new ArrayList<String>();
 	@BindView(R.id.movietitle)
 	TextView mtitle;
 	@BindView(R.id.movieoverview)
@@ -69,10 +59,8 @@ public class DetailFragment extends Fragment {
 	Button favoritebutton;
 	View view;
 	int movieids;
-	//ArrayList<String> urllist = new ArrayList<String>();
-	//ArrayList<ContentValues> contentValuesArrayList=new ArrayList<ContentValues>();
-	String yearsy;
-	Moviedata moviedata;
+	public static String yearsy;
+	public static Moviedata moviedata;
 
 
 	@Nullable
@@ -83,121 +71,123 @@ public class DetailFragment extends Fragment {
 		arguments = getArguments();
 		if (arguments != null) {
 			moviedata = arguments.getParcelable(getString(R.string.movie_key));
-			movieids = moviedata.getMmovieid();
-			Log.d(TAG, "got the data");
-			mtitle.setText(moviedata.getMtitle());
-			moverview.setText(moviedata.getMoverview());
-			String relyear = moviedata.getMreleasedate();
-			String[] arry = relyear.split("-");
-			yearsy = arry[0];
-			myear.setText(arry[0]);
-			Double votes = moviedata.getMvotes();
-			String displayvotes = votes + "/10";
-			ratingvotes.setText(displayvotes);
-			String moviepath = moviedata.getMmoviepath();
-			Uri.Builder uribuilder = Uri.parse("http://image.tmdb.org/t/p/w342/").buildUpon();
-			uribuilder.appendPath(moviepath);
-			String uri = uribuilder.build().toString();
-			String finaluri = null;
-			//added this to remove %2f in uri due to / in the posterpath
-			try {
-				finaluri = java.net.URLDecoder.decode(uri, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
+			if (moviedata != null) {
+				movieids = moviedata.getMmovieid();
+				Log.d(TAG, "got the data");
+				mtitle.setText(moviedata.getMtitle());
+				moverview.setText(moviedata.getMoverview());
+				String relyear = moviedata.getMreleasedate();
+				String[] arry = relyear.split("-");
+				yearsy = arry[0];
+				myear.setText(arry[0]);
+				Double votes = moviedata.getMvotes();
+				String displayvotes = votes + "/10";
+				ratingvotes.setText(displayvotes);
+				String moviepath = moviedata.getMmoviepath();
+				Uri.Builder uribuilder = Uri.parse("http://image.tmdb.org/t/p/w342/").buildUpon();
+				uribuilder.appendPath(moviepath);
+				String uri = uribuilder.build().toString();
+				String finaluri = null;
+				//added this to remove %2f in uri due to / in the posterpath
+				try {
+					finaluri = java.net.URLDecoder.decode(uri, "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+				Picasso.with(getActivity()).load(finaluri).into(imageView);
+				videouris.clear();
+				OkhttpHandlerVideos okhttpHandlerVideos = new OkhttpHandlerVideos(getContext(), moviedata.getMmovieid(), new OkhttpHandlerVideos.AsyncResponse() {
+					@Override
+					public void processFinish(ArrayList<Movievideodata> output) {
+
+						for (int i = 0; i < output.size(); i++) {
+							//	Log.d(TAG, "The videokey" + output.get(i).getPmoviekeys());
+							videouris.add(output.get(i).getPmoviekeys());
+						}
+					}
+
+				});
+				okhttpHandlerVideos.execute("http://api.themoviedb.org/3/movie/" + moviedata.getMmovieid() + "/videos?api_key=50bb9b78ca3a650f255ae2006b702c62");
+				urllist.clear();
+
+				OkhttpHandlerReviews okhttpHandlerReviews = new OkhttpHandlerReviews(getContext(), moviedata.getMmovieid(), new OkhttpHandlerReviews.AsyncResponse() {
+					@Override
+					public void processFinish(ArrayList<Moviereviewsdata> output) {
+
+						for (int i = 0; i < output.size(); i++) {
+							//		Log.d(TAG, "The reviewurl" + output.get(i).getPurl());
+							urllist.add(output.get(i).getPurl());
+						}
+
+					}
+
+				});
+				okhttpHandlerReviews.execute("http://api.themoviedb.org/3/movie/" + moviedata.getMmovieid() + "/reviews?api_key=50bb9b78ca3a650f255ae2006b702c62");
+
+				button.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+
+						Bundle bundle = new Bundle();
+						bundle.putStringArrayList("urllist", urllist);
+						bundle.putInt("movieid", movieids);
+						Intent reviewintent = new Intent(getContext(), ReviewsActivity.class);
+						reviewintent.putExtra("urlbundle", bundle);
+						startActivity(reviewintent);
+					}
+
+
+				});
+				playbutton1.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+
+						if ((videouris.size() > 0) && (videouris.get(0) != null)) {
+
+							Uri videouri = Uri.parse("http://www.youtube.com/watch?v=" + videouris.get(0)).buildUpon().build();
+							//		Log.d(TAG,"the videouri"+ videouri);
+							Intent trailintent = new Intent(Intent.ACTION_VIEW, videouri);
+							if (trailintent.resolveActivity(getActivity().getPackageManager()) != null) {
+								startActivity(trailintent);
+							}
+
+						} else {
+							Toast.makeText(getContext(), "No trailer to show", Toast.LENGTH_SHORT).show();
+						}
+					}
+
+				});
+
+				playbutton2.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+
+						if ((videouris.size() > 1) && (videouris.get(1) != null)) {
+							Uri videouri = Uri.parse("http://www.youtube.com/watch?v=" + videouris.get(1)).buildUpon().build();
+							//	Log.d(TAG,"the videouri"+ videouri);
+							Intent trailintent = new Intent(Intent.ACTION_VIEW, videouri);
+							if (trailintent.resolveActivity(getActivity().getPackageManager()) != null) {
+								startActivity(trailintent);
+							}
+
+
+						} else {
+							Toast.makeText(getContext(), "No trailer to show", Toast.LENGTH_SHORT).show();
+						}
+					}
+				});
+
+				favoritebutton.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						final MyDatabaseQuery myDatabaseQuery = new MyDatabaseQuery(getContext());
+						Uri movieuri = MovieContract.MovieEntry.buildMovieUri(moviedata.getMmovieid());
+						myDatabaseQuery.execute(movieuri.toString());
+
+					}
+				});
+
 			}
-			Picasso.with(getActivity()).load(finaluri).into(imageView);
-
-			button.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-
-					Bundle bundle = new Bundle();
-					bundle.putStringArrayList("urllist", MoviesAdapter.urllist);
-					bundle.putInt("movieid", movieids);
-					Intent reviewintent = new Intent(getContext(), reviewsActivity.class);
-					reviewintent.putExtra("urlbundle", bundle);
-					startActivity(reviewintent);
-				}
-
-
-			});
-			playbutton1.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-
-					if ((MoviesAdapter.videouris.size() > 0) && (MoviesAdapter.videouris.get(0) != null)) {
-
-						Uri videouri = Uri.parse("http://www.youtube.com/watch?v=" + MoviesAdapter.videouris.get(0)).buildUpon().build();
-						//		Log.d(TAG,"the videouri"+ videouri);
-						Intent trailintent = new Intent(Intent.ACTION_VIEW, videouri);
-						startActivity(trailintent);
-					} else {
-						Toast.makeText(getContext(), "No trailer to show", Toast.LENGTH_SHORT).show();
-					}
-				}
-
-			});
-
-			playbutton2.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-
-					if ((MoviesAdapter.videouris.size() > 1) && (MoviesAdapter.videouris.get(1) != null)) {
-						Uri videouri = Uri.parse("http://www.youtube.com/watch?v=" + MoviesAdapter.videouris.get(1)).buildUpon().build();
-						//	Log.d(TAG,"the videouri"+ videouri);
-						Intent trailintent = new Intent(Intent.ACTION_VIEW, videouri);
-						startActivity(trailintent);
-
-					} else {
-						Toast.makeText(getContext(), "No trailer to show", Toast.LENGTH_SHORT).show();
-					}
-				}
-			});
-
-			favoritebutton.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					Uri movieuri = MovieContract.MovieEntry.buildMovieUri(moviedata.getMmovieid());
-					Cursor cursor = getActivity().getContentResolver().query(movieuri, null, null, null, null);
-					if (cursor != null && cursor.moveToFirst()) {
-						Toast.makeText(getContext(), "Exists in Favorite", Toast.LENGTH_SHORT).show();
-
-					} else {
-						ContentValues contentValues = new ContentValues();
-						contentValues.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH, moviedata.getMmoviepath());
-						contentValues.put(MovieContract.MovieEntry.COLUMN_OVERVIEW, moviedata.getMoverview());
-						contentValues.put(MovieContract.MovieEntry.COLUMN_RELDATE, yearsy);
-						contentValues.put(MovieContract.MovieEntry.COLUMN_MOVIEID, moviedata.getMmovieid());
-						contentValues.put(MovieContract.MovieEntry.COLUMN_TITLE, moviedata.getMtitle());
-						contentValues.put(MovieContract.MovieEntry.COLUMN_VOTES, moviedata.getMvotes());
-						//	contentValuesArrayList.add(contentValues);
-						Uri returi = getContext().getContentResolver().insert(MovieContract.MovieEntry.CONTENT_URI, contentValues);
-						long rowid = ContentUris.parseId(returi);
-						//	Log.d(TAG, "the uri is " + returi);
-						ContentValues contentValues1 = new ContentValues();
-
-						for (int i = 0; i < MoviesAdapter.videouris.size(); i++) {
-							contentValues1.put(MovieContract.VideoEntry.COLUMN_ID_KEY, (int) rowid);
-							contentValues1.put(MovieContract.VideoEntry.COLUMN_VIDEOS, MoviesAdapter.videouris.get(i));
-							contentValues1.put(MovieContract.VideoEntry.COLUMN_MOV_ID, moviedata.getMmovieid());
-							Uri returin = getContext().getContentResolver().insert(MovieContract.VideoEntry.CONTENT_URI, contentValues1);
-							//		Log.d(TAG, "the uri is " + returin + "the i is " + i);
-						}
-						ContentValues contentValues2 = new ContentValues();
-						for (int i = 0; i < MoviesAdapter.urllist.size(); i++) {
-							contentValues2.put(MovieContract.ReviewEntry.COLUMN_MOVIEID_KEY, (int) rowid);
-							contentValues2.put(MovieContract.ReviewEntry.COLUMN_MOVIE_ID, moviedata.getMmovieid());
-							contentValues2.put(MovieContract.ReviewEntry.COLUMN_AUTHOR, "sheik");
-							contentValues2.put(MovieContract.ReviewEntry.COLUMN_URL, MoviesAdapter.urllist.get(i));
-							Uri returint = getContext().getContentResolver().insert(MovieContract.ReviewEntry.CONTENT_URI, contentValues2);
-							//		Log.d(TAG, "the uri is " + returint);
-						}
-						Toast.makeText(getContext(), "Added to Favorites", Toast.LENGTH_SHORT).show();
-					}
-
-				}
-			});
-
 		}
 
 		return view;

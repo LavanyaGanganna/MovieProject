@@ -53,7 +53,8 @@ public class MainActivityFragmentwo extends Fragment {
 		RecyclerView.LayoutManager mlayoutmanager = new GridLayoutManager(getActivity(), columns);
 		recyclerview.setLayoutManager(mlayoutmanager);
 		progressBartwo = (ProgressBar) view.findViewById(R.id.progressBartwo);
-		recyclerview.setAdapter(moviesAdapter);
+		//recyclerview.setAdapter(moviesAdapter);
+
 
 		return view;
 

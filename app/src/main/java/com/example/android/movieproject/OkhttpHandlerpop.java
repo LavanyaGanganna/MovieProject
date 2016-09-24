@@ -38,7 +38,7 @@ public class OkhttpHandlerpop extends AsyncTask<String, Void, ArrayList<Moviedat
 	OkHttpClient client = new OkHttpClient();
 	Response response;
 	Context mcontext;
-	MoviesAdapter popmoviesadapter;
+	MoviesAdapter popmoviesadapter = null;
 	public static ArrayList<Moviedata> moviepop = new ArrayList<Moviedata>();
 	public AsyncResponse delegate = null;
 
@@ -126,24 +126,26 @@ public class OkhttpHandlerpop extends AsyncTask<String, Void, ArrayList<Moviedat
 		if (moviedatas == null) {
 			Toast.makeText(mcontext, "no internet connection", Toast.LENGTH_LONG).show();
 		}
-		if (status == false) {
+		if (!status) {
 			Toast.makeText(mcontext, "no internet connection", Toast.LENGTH_LONG).show();
 		}
-		popmoviesadapter = new MoviesAdapter(moviedatas, mcontext);
-
-		if (popmoviesadapter != null) {
-			//	Log.d(TAG,"inside post execute mmoviesadapter");
+		if (moviedatas != null) {
+			popmoviesadapter = new MoviesAdapter(moviedatas, mcontext);
+			//if (popmoviesadapter != null) {
 			Activity activity = (mcontext instanceof Activity) ? (Activity) mcontext : null;
-			ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.progressBar);
-			if (progressBar != null && progressBar.getVisibility() == View.VISIBLE) {
-				progressBar.setVisibility(View.GONE);
+			if (activity != null) {
+				ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.progressBar);
+				if (progressBar != null && progressBar.getVisibility() == View.VISIBLE) {
+					progressBar.setVisibility(View.GONE);
+				}
+				RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.recyclerview);
+				if (recyclerView != null && popmoviesadapter != null) {
+					recyclerView.setAdapter(popmoviesadapter);
+					recyclerView.getRecycledViewPool().clear();//impt for recyclerview error offset position1
+					popmoviesadapter.notifyDataSetChanged();
+				}
 			}
-			RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.recyclerview);
-			if (recyclerView != null && popmoviesadapter != null) {
-				recyclerView.setAdapter(popmoviesadapter);
-				recyclerView.getRecycledViewPool().clear();//impt for recyclerview error offset position1
-			}
-			popmoviesadapter.notifyDataSetChanged();
+
 		}
 
 	}

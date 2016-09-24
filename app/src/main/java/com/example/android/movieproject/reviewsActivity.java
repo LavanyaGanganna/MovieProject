@@ -1,15 +1,11 @@
 package com.example.android.movieproject;
 
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -21,8 +17,8 @@ import com.example.android.movieproject.datas.Moviereviewsdata;
 
 import java.util.ArrayList;
 
-public class reviewsActivity extends AppCompatActivity {
-	private static final String TAG = reviewsActivity.class.getSimpleName();
+public class ReviewsActivity extends AppCompatActivity {
+	private static final String TAG = ReviewsActivity.class.getSimpleName();
 	LinearLayout linearLayout;
 	ProgressBar progressBar;
 	final ArrayList<String> urllist = new ArrayList<String>();
@@ -57,7 +53,7 @@ public class reviewsActivity extends AppCompatActivity {
 
 							linearLayout = (LinearLayout) findViewById(R.id.reviewlinearlayout);
 							LinearLayoutCompat.LayoutParams layoutParams = new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-							TextView textView = new TextView(reviewsActivity.this);
+							TextView textView = new TextView(ReviewsActivity.this);
 							textView.setLayoutParams(layoutParams);
 							textView.setPadding(0, 0, 0, 20);
 							textView.setText("Reviews:");
@@ -66,7 +62,7 @@ public class reviewsActivity extends AppCompatActivity {
 							for (int j = 0; j < urllist.size(); j++) {
 								if (!(urllist.get(j) == null)) {
 									LinearLayoutCompat.LayoutParams layoutParam = new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-									TextView textViews = new TextView(reviewsActivity.this);
+									TextView textViews = new TextView(ReviewsActivity.this);
 									textViews.setLayoutParams(layoutParam);
 									textViews.setPadding(0, 0, 0, 20);
 									textViews.setClickable(true);
@@ -80,7 +76,7 @@ public class reviewsActivity extends AppCompatActivity {
 
 							}
 							if (textarraylist.size() == 0)
-								Toast.makeText(reviewsActivity.this, "No reviews to show", Toast.LENGTH_SHORT).show();
+								Toast.makeText(ReviewsActivity.this, "No reviews to show", Toast.LENGTH_SHORT).show();
 						}
 
 					});

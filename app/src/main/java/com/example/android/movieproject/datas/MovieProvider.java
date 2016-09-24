@@ -64,7 +64,9 @@ public class MovieProvider extends ContentProvider {
 				retcursor = movieDbHelper.getReadableDatabase().rawQuery(My_query, selectionargs);
 				if (retcursor.moveToFirst()) {
 					String title = retcursor.getString(retcursor.getColumnIndexOrThrow(MovieContract.MovieEntry.COLUMN_TITLE));
-					//	Log.d(TAG, "the title is" + title);
+					Log.d(TAG, "the title is" + title);
+				} else {
+					retcursor = null;
 				}
 				return retcursor;
 
