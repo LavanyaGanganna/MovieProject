@@ -4,3 +4,5 @@ This app displays most popular movies,top rated movies and favorite movies list.
 User can add movies to his favorite list.
 User can also rate the movies.
 User can watch the movie trailers and read movie reviews.
+This app uses The Movie Database API to retrieve movies.
+This works flwalessly on both phone and tablet.
