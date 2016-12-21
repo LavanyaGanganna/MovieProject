@@ -18,3 +18,9 @@ Follow these instructions to build and run the project.
 * User can watch the movie trailers and read movie reviews.
 * This app uses MovieDatabase API to get movie JSON data.
 * This  app works flawlessly on both phone and tablet.
+
+## License
+
+Copyright 2016-2018 Lavanya Ganganna.
+
+Licensed under the MIT License https://opensource.org/licenses/MIT
